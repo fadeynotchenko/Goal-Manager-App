@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct GoalAppApp: App {
+    
+    @StateObject var vm = RealmViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(vm)
+            
         }
     }
 }

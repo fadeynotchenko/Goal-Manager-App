@@ -20,8 +20,9 @@ struct WelcomeView: View {
             
             Text(welcomeTextArray[count])
                 .bold()
-                .font(.largeTitle)
+                .font(.title)
                 .multilineTextAlignment(.center)
+                .padding()
                 .id(welcomeTextArray[count])
             
             Spacer()
