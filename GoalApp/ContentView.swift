@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var firstEntry = UserDefaults.standard.bool(forKey: "firstEntry")
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        if firstEntry {
+            MainView()
+        } else {
+            WelcomeView()
+        }
     }
 }
 
