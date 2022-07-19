@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-var arrayTime = ["День", "Неделю", "Месяц", "Год"]
+var timeArray = ["День", "Неделю", "Месяц", "Год"]
 var valueArray: [Value] = [.rub, .usd, .eur]
 var colorArray: [Color] = [.red, .orange, .yellow, .green, .blue, .cyan, .purple, .pink, .indigo, .brown]
 
@@ -73,7 +73,7 @@ struct NewGoalView: View {
                                 .font(.headline)
                             
                             if isOnNotification {
-                                Text("Раз в \(arrayTime[selectedTime])")
+                                Text("Раз в \(timeArray[selectedTime])")
                             } else {
                                 Text("Никогда")
                                     .font(.subheadline)

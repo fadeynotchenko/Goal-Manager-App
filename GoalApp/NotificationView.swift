@@ -23,8 +23,8 @@ struct NotificationView: View {
             
             if isOnNotification {
                 Picker("Присылать уведомление раз в", selection: $selectedTime) {
-                    ForEach(0..<arrayTime.count, id: \.self) { i in
-                        Text(arrayTime[i])
+                    ForEach(0..<timeArray.count, id: \.self) { i in
+                        Text(timeArray[i])
                     }
                 }
                 

@@ -31,7 +31,7 @@ struct WelcomeView: View {
                 
                 Spacer()
                 
-                Text(count == 0 ? "Нажмите на текст, чтобы продожить" : "")
+                Text(count == 0 ? "Нажмите на текст, чтобы продожить" : " ")
                     .foregroundColor(.gray)
             }
             .fullScreenCover(isPresented: $openMainView) {

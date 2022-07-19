@@ -35,6 +35,7 @@ struct MainView: View {
                         }
                     }
                 }
+                .listStyle(.insetGrouped)
                 
                 if goals.isEmpty {
                     Text("Список пуст")
@@ -58,78 +59,8 @@ struct MainView: View {
         }
         .accentColor(.purple)
         .navigationViewStyle(.stack)
-        
     }
     
-}
-
-struct GoalRow: View {
-    
-    let goal: Goal
-    
-    var body: some View {
-        NavigationLink(destination: {
-            VStack {
-                //
-            }.navigationTitle(Text(goal.name!))
-        }) {
-            HStack(spacing: 0) {
-                VStack {
-                }
-                
-                VStack(alignment: .leading, spacing: 10) {
-                    
-                    VStack(alignment: .leading, spacing: 100) {
-                        Text(goal.name!)
-                            .bold()
-                            .font(.title2)
-                    }
-                    
-                    CapsuleProgressView(goal: goal)
-                    
-                    Text("\(goal.current) / \(goal.price) \(valueArray[Int(goal.valueIndex)].symbol)")
-                        .foregroundColor(.gray)
-                    
-                }
-            }
-            
-        }
-        .accentColor(.red)
-    }
-    
-}
-
-struct CapsuleProgressView: View {
-    
-    let goal: Goal
-    @State var percent: CGFloat = 0
-    var width = UIScreen.main.bounds.width
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            
-            ZStack(alignment: .trailing) {
-                HStack {
-                Capsule()
-                    .fill(.gray.opacity(0.5))
-                    .frame(width: width / 2, height: 12)
-                    
-                    Text("\(Int(percent)) %")
-                        .foregroundColor(.gray)
-                        .bold()
-                }
-            }
-            
-            Capsule()
-                .fill(LinearGradient(colors: [.purple, colorArray[Int(goal.tagIndex)]], startPoint: .leading, endPoint: .trailing))
-                .frame(width: percent / 200 * width, height: 12)
-        }
-        .task {
-            withAnimation(.linear(duration: 0.5)) {
-                percent = CGFloat(goal.current / (goal.price / 100))
-            }
-        }
-    }
 }
 
 struct MainView_Previews: PreviewProvider {

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		435A85A128859D9A00A0072E /* GoalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 435A859F28859D9A00A0072E /* GoalModel.xcdatamodeld */; };
 		435A85A32885A00100A0072E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435A85A22885A00100A0072E /* DataController.swift */; };
+		435DEAFD2886E77B0062D62D /* GoalRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435DEAFC2886E77B0062D62D /* GoalRow.swift */; };
+		435DEAFF2886E7A60062D62D /* GoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435DEAFE2886E7A60062D62D /* GoalView.swift */; };
 		436507912884404A00A619A2 /* GoalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436507902884404A00A619A2 /* GoalApp.swift */; };
 		436507932884404A00A619A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436507922884404A00A619A2 /* ContentView.swift */; };
 		436507952884404C00A619A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 436507942884404C00A619A2 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 /* Begin PBXFileReference section */
 		435A85A028859D9A00A0072E /* GoalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GoalModel.xcdatamodel; sourceTree = "<group>"; };
 		435A85A22885A00100A0072E /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		435DEAFC2886E77B0062D62D /* GoalRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalRow.swift; sourceTree = "<group>"; };
+		435DEAFE2886E7A60062D62D /* GoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalView.swift; sourceTree = "<group>"; };
 		4365078D2884404A00A619A2 /* GoalApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoalApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		436507902884404A00A619A2 /* GoalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalApp.swift; sourceTree = "<group>"; };
 		436507922884404A00A619A2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +75,8 @@
 				4365079E288440CF00A619A2 /* MainView.swift */,
 				436507A22884438300A619A2 /* NewGoalView+ValueEnum.swift */,
 				436507A428844F1C00A619A2 /* NotificationView.swift */,
+				435DEAFC2886E77B0062D62D /* GoalRow.swift */,
+				435DEAFE2886E7A60062D62D /* GoalView.swift */,
 				436507942884404C00A619A2 /* Assets.xcassets */,
 				436507962884404C00A619A2 /* Preview Content */,
 			);
@@ -179,8 +185,10 @@
 				436507932884404A00A619A2 /* ContentView.swift in Sources */,
 				4365079F288440CF00A619A2 /* MainView.swift in Sources */,
 				436507A32884438300A619A2 /* NewGoalView+ValueEnum.swift in Sources */,
+				435DEAFD2886E77B0062D62D /* GoalRow.swift in Sources */,
 				436507912884404A00A619A2 /* GoalApp.swift in Sources */,
 				435A85A32885A00100A0072E /* DataController.swift in Sources */,
+				435DEAFF2886E7A60062D62D /* GoalView.swift in Sources */,
 				436507A1288440D800A619A2 /* WelcomeView.swift in Sources */,
 				436507A528844F1C00A619A2 /* NotificationView.swift in Sources */,
 			);
