@@ -15,6 +15,7 @@ var colorArray: [Color] = [.red, .orange, .yellow, .green, .blue, .cyan, .purple
 struct NewGoalView: View {
     
     @Binding var openNewGoalView: Bool
+    @FocusState var focus: Bool
     
     @Environment(\.managedObjectContext) var managedObjectContext
     @EnvironmentObject var vmDB: DataController
@@ -27,8 +28,6 @@ struct NewGoalView: View {
     
     @State var selectedTime = 0
     @State var isOnNotification = false
-    
-    @FocusState var focus: Bool
     
     var body: some View {
         NavigationView {
@@ -50,7 +49,7 @@ struct NewGoalView: View {
                             ForEach(0..<valueArray.count, id: \.self) { i in
                                 Text(valueArray[i].rawValue)
                             }
-                        }
+                        }.pickerStyle(.menu)
                     }
                     
                     TextField("Накопления (Необязательно)", value: $goalCurrent, format: .number)
@@ -116,10 +115,12 @@ struct NewGoalView: View {
             .toolbar {
                 ToolbarItem {
                     Button("Добавить") {
-                        //action add
-                        vmDB.addGoal(name: goalName, price: goalPrice!, current: goalCurrent ?? 0, valueIndex: Int16(valueIndex), tagIndex: Int16(tagIndex), context: managedObjectContext)
-                        
                         openNewGoalView.toggle()
+                        //action add
+                        DispatchQueue.main.async {
+                            vmDB.addGoal(name: goalName, allPrice: goalPrice!, current: goalCurrent ?? 0, valueIndex: Int16(valueIndex), tagIndex: Int16(tagIndex), context: managedObjectContext)
+                        }
+                        
                     }
                     .disabled(goalName.isEmpty ? true : false)
                     .disabled(goalPrice == nil ? true : false)
@@ -141,7 +142,7 @@ struct NewGoalView: View {
             }
             
         }
-        .accentColor(.red)
+        .accentColor(.purple)
         .navigationViewStyle(.stack)
     }
 }

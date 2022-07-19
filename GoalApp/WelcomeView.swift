@@ -14,35 +14,39 @@ struct WelcomeView: View {
     private let welcomeTextArray = ["Добро пожаловать в 'Моя Копилка'", "Со мной копить еще удобнее!", "Давай добавим твою первую цель"]
     
     var body: some View {
-        VStack {
+        ZStack {
             
-            Spacer()
+            Color("Color").edgesIgnoringSafeArea(.all)
             
-            Text(welcomeTextArray[count])
-                .bold()
-                .font(.title)
-                .multilineTextAlignment(.center)
-                .padding()
-                .id(welcomeTextArray[count])
-            
-            Spacer()
-            
-            Text(count == 0 ? "Нажмите на текст, чтобы продожить" : "")
-                .foregroundColor(.gray)
-        }
-        .fullScreenCover(isPresented: $openMainView) {
-            MainView(openNewGoalView: true)
-        }
-        .onTapGesture {
-            withAnimation(.linear(duration: 0.25)) {
-                if count < welcomeTextArray.count - 1 {
-                    count += 1
-                } else {
-                    UserDefaults.standard.set(true, forKey: "firstEntry")
-                    openMainView = true
+            VStack {
+                
+                Spacer()
+                
+                Text(welcomeTextArray[count])
+                    .bold()
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .id(welcomeTextArray[count])
+                
+                Spacer()
+                
+                Text(count == 0 ? "Нажмите на текст, чтобы продожить" : "")
+                    .foregroundColor(.gray)
+            }
+            .fullScreenCover(isPresented: $openMainView) {
+                MainView(openNewGoalView: true)
+            }
+            .onTapGesture {
+                withAnimation(.linear(duration: 0.25)) {
+                    if count < welcomeTextArray.count - 1 {
+                        count += 1
+                    } else {
+                        UserDefaults.standard.set(true, forKey: "firstEntry")
+                        openMainView = true
+                    }
                 }
             }
-            
         }
     }
 }
