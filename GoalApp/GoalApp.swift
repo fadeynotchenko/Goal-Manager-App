@@ -8,15 +8,15 @@
 import SwiftUI
 
 @main
-struct GoalAppApp: App {
+struct GoalApp: App {
     
-    @StateObject var vm = RealmViewModel()
+    @StateObject var vmDB = DataController()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(vm)
-            
+                .environmentObject(vmDB)
+                .environment(\.managedObjectContext, vmDB.container.viewContext)
         }
     }
 }

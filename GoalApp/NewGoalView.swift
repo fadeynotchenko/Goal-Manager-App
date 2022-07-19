@@ -6,17 +6,24 @@
 //
 
 import SwiftUI
-import RealmSwift
+import CoreData
 
 var arrayTime = ["День", "Неделю", "Месяц", "Год"]
-var valueArray = ["RUB", "USD", "EUR"]
+var valueArray: [Value] = [.rub, .usd, .eur]
 var colorArray: [Color] = [.red, .orange, .yellow, .green, .blue, .cyan, .purple, .pink, .indigo, .brown]
 
 struct NewGoalView: View {
     
     @Binding var openNewGoalView: Bool
     
-    @EnvironmentObject var vm: RealmViewModel
+    @Environment(\.managedObjectContext) var managedObjectContext
+    @EnvironmentObject var vmDB: DataController
+    
+    @State var goalName = ""
+    @State var goalPrice: Int64?
+    @State var goalCurrent: Int64?
+    @State var valueIndex = 0
+    @State var tagIndex = 0
     
     @State var selectedTime = 0
     @State var isOnNotification = false
@@ -26,39 +33,38 @@ struct NewGoalView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(content: {
-                    TextField("Например: 'Машина' или 'Квартира'", text: $vm.goalName)
+                Section{
+                    TextField("Например: 'Машина' или 'Квартира'", text: $goalName)
                         .focused($focus)
-                }, header: {
+                } header: {
                     Text("Название")
-                })
+                }
                 
-                Section(content: {
-                    TextField("Цена в \(valueArray[vm.valueIndex])", text: $vm.goalPrice)
+                Section {
+                    HStack {
+                        TextField("Цена в \(valueArray[valueIndex].symbol)", value: $goalPrice, format: .number)
+                            .focused($focus)
+                            .keyboardType(.numberPad)
+                        
+                        Picker("", selection: $valueIndex) {
+                            ForEach(0..<valueArray.count, id: \.self) { i in
+                                Text(valueArray[i].rawValue)
+                            }
+                        }
+                    }
+                    
+                    TextField("Накопления (Необязательно)", value: $goalCurrent, format: .number)
                         .focused($focus)
                         .keyboardType(.numberPad)
                     
-                    Picker("", selection: $vm.valueIndex) {
-                        ForEach(0..<valueArray.count, id: \.self) { i in
-                            Text(valueArray[i])
-                        }
-                    }.pickerStyle(.segmented)
-                }, header: {
+                } header: {
                     Text("Стоимость")
-                })
+                } footer: {
+                    Text("Сумма которая имеется сейчас")
+                }
                 .listRowSeparator(.hidden)
                 
-                Section(content: {
-                    TextField("(Необязательно)", text: $vm.goalCurrent)
-                        .focused($focus)
-                        .keyboardType(.numberPad)
-                }, header: {
-                    Text("Накопления")
-                }, footer: {
-                    Text("Сумма которая имеется сейчас")
-                })
-                
-                Section(content: {
+                Section{
                     NavigationLink(destination: {
                         NotificationView(isOnNotification: $isOnNotification, selectedTime: $selectedTime)
                         
@@ -72,14 +78,15 @@ struct NewGoalView: View {
                             } else {
                                 Text("Никогда")
                                     .font(.subheadline)
+                                    .foregroundColor(.gray)
                             }
                         }
                     }
-                }, header: {
+                } header: {
                     Text("Уведомление")
-                })
+                }
                 
-                Section(content: {
+                Section {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack {
                             ForEach(0..<colorArray.count, id: \.self) { i in
@@ -87,22 +94,22 @@ struct NewGoalView: View {
                                     .fill(colorArray[i])
                                     .frame(width: 30, height: 30)
                                     .background {
-                                        if vm.tagIndex == i {
+                                        if tagIndex == i {
                                             Circle()
                                                 .fill(.gray)
                                                 .padding(-3)
                                         }
                                     }
                                     .onTapGesture {
-                                        vm.tagIndex = i
+                                        tagIndex = i
                                     }
                                     .padding(5)
                             }
                         }
                     }
-                }, header: {
+                } header: {
                     Text("Теги")
-                })
+                }
                 
             }
             .navigationTitle(Text("Новая цель"))
@@ -110,11 +117,12 @@ struct NewGoalView: View {
                 ToolbarItem {
                     Button("Добавить") {
                         //action add
-                        vm.addData()
+                        vmDB.addGoal(name: goalName, price: goalPrice!, current: goalCurrent ?? 0, valueIndex: Int16(valueIndex), tagIndex: Int16(tagIndex), context: managedObjectContext)
+                        
                         openNewGoalView.toggle()
                     }
-                    .disabled(vm.goalName.isEmpty ? true : false)
-                    .disabled(vm.goalPrice.isEmpty ? true : false)
+                    .disabled(goalName.isEmpty ? true : false)
+                    .disabled(goalPrice == nil ? true : false)
                 }
                 
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -135,8 +143,22 @@ struct NewGoalView: View {
         }
         .accentColor(.red)
         .navigationViewStyle(.stack)
-        .onDisappear {
-            vm.deInitData()
+    }
+}
+
+enum Value: String {
+    case rub = "RUB"
+    case usd = "USD"
+    case eur = "EUR"
+    
+    var symbol: String {
+        switch self {
+        case .rub:
+            return "₽"
+        case .usd:
+            return "$"
+        case .eur:
+            return "€"
         }
     }
 }
@@ -144,6 +166,7 @@ struct NewGoalView: View {
 struct NewGoalView_Previews: PreviewProvider {
     static var previews: some View {
         NewGoalView(openNewGoalView: .constant(true))
-            .environmentObject(RealmViewModel())
+            .environmentObject(DataController())
+        
     }
 }

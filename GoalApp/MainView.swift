@@ -6,29 +6,35 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct MainView: View {
     
     @State var openNewGoalView = false
-    @EnvironmentObject var vm: RealmViewModel
+    
+    @Environment(\.managedObjectContext) var managedObjectContext
+    @EnvironmentObject var vmDB: DataController
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var goals: FetchedResults<Goal>
     
     var body: some View {
         NavigationView {
             ZStack {
                 List {
-                    ForEach(vm.goals, id: \.id) { goal in
-                        
+                    ForEach(goals) { goal in
                         GoalRow(goal: goal)
-                            .contextMenu {
-                                Button("Удалить") {
-                                    vm.deleteData(goal: goal)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    withAnimation() {
+                                        vmDB.deleteGoal(goal: goal, context: managedObjectContext)
+                                    }
+                                } label: {
+                                    Label("", systemImage: "trash")
                                 }
                             }
-                        
                     }
                 }
                 
-                if vm.goals.isEmpty {
+                if goals.isEmpty {
                     Text("Список пуст")
                         .foregroundColor(.gray)
                 }
@@ -36,7 +42,6 @@ struct MainView: View {
             .navigationTitle(Text("Моя копилка"))
             .sheet(isPresented: $openNewGoalView) {
                 NewGoalView(openNewGoalView: $openNewGoalView)
-                    .environmentObject(vm)
             }
             .toolbar {
                 ToolbarItem {
@@ -46,18 +51,20 @@ struct MainView: View {
                         Image(systemName: "plus")
                             .foregroundColor(.red)
                     }
+                    
                 }
             }
         }
         .accentColor(.red)
         .navigationViewStyle(.stack)
+        
     }
+    
 }
 
 struct GoalRow: View {
     
-    let goal: GoalItem
-    @EnvironmentObject var vm: RealmViewModel
+    let goal: Goal
     
     var body: some View {
         NavigationLink(destination: {
@@ -65,25 +72,28 @@ struct GoalRow: View {
         }) {
             HStack {
                 Circle()
-                    .fill(colorArray[goal.tagIndex])
-                    .frame(width: 50, height: 50)
+                    .fill(colorArray[Int(goal.tagIndex)])
+                    .frame(width: 30, height: 30)
                 
                 VStack(alignment: .leading) {
-                    Text(goal.goalName)
+                    Text(goal.name!)
                         .bold()
+                        .font(.title2)
                     
-                    Text("\(goal.goalPrice) \(valueArray[goal.valueIndex])")
+                    Text("\(goal.current) / \(goal.price) \(valueArray[Int(goal.valueIndex)].symbol)")
+                    
                 }
                 .padding(.horizontal)
             }
             .padding(5)
         }.accentColor(.red)
     }
+    
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-            .environmentObject(RealmViewModel())
+            .environmentObject(DataController())
     }
 }
