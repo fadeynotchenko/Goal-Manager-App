@@ -17,50 +17,51 @@ struct MainView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var goals: FetchedResults<Goal>
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                List {
-                    ForEach(goals) { goal in
-                        Section {
-                            GoalRow(goal: goal)
-                                .swipeActions {
-                                    Button(role: .destructive) {
-                                        withAnimation() {
-                                            vmDB.deleteGoal(goal: goal, context: managedObjectContext)
+        GeometryReader { reader in
+            NavigationView {
+                ZStack {
+                    List {
+                        ForEach(goals) { goal in
+                            Section {
+                                GoalRow(goal: goal, reader: reader)
+                                    .swipeActions {
+                                        Button(role: .destructive) {
+                                            withAnimation() {
+                                                vmDB.deleteGoal(goal: goal, context: managedObjectContext)
+                                            }
+                                        } label: {
+                                            Label("", systemImage: "trash")
                                         }
-                                    } label: {
-                                        Label("", systemImage: "trash")
                                     }
-                                }
+                            }
                         }
                     }
-                }
-                .listStyle(.insetGrouped)
-                
-                if goals.isEmpty {
-                    Text("Список пуст")
-                        .foregroundColor(.gray)
-                }
-            }
-            .navigationTitle(Text("Моя копилка"))
-            .sheet(isPresented: $openNewGoalView) {
-                NewGoalView(openNewGoalView: $openNewGoalView)
-            }
-            .toolbar {
-                ToolbarItem {
-                    Button(action: {
-                        openNewGoalView.toggle()
-                    }) {
-                        Image(systemName: "plus")
-                    }
+                    .listStyle(.insetGrouped)
                     
+                    if goals.isEmpty {
+                        Text("Список пуст")
+                            .foregroundColor(.gray)
+                    }
+                }
+                .navigationTitle(Text("Моя копилка"))
+                .sheet(isPresented: $openNewGoalView) {
+                    NewGoalView(openNewGoalView: $openNewGoalView)
+                }
+                .toolbar {
+                    ToolbarItem {
+                        Button(action: {
+                            openNewGoalView.toggle()
+                        }) {
+                            Image(systemName: "plus")
+                        }
+                        
+                    }
                 }
             }
+            .accentColor(.purple)
+            .navigationViewStyle(.stack)
         }
-        .accentColor(.purple)
-        .navigationViewStyle(.stack)
     }
-    
 }
 
 struct MainView_Previews: PreviewProvider {

@@ -8,10 +8,6 @@
 import SwiftUI
 import CoreData
 
-var timeArray = ["День", "Неделю", "Месяц", "Год"]
-var valueArray: [Value] = [.rub, .usd, .eur]
-var colorArray: [Color] = [.red, .orange, .yellow, .green, .blue, .cyan, .purple, .pink, .indigo, .brown]
-
 struct NewGoalView: View {
     
     @Binding var openNewGoalView: Bool
@@ -65,7 +61,7 @@ struct NewGoalView: View {
                 
                 Section{
                     NavigationLink(destination: {
-                        NotificationView(isOnNotification: $isOnNotification, selectedTime: $selectedTime)
+                        
                         
                     }) {
                         VStack(alignment: .leading) {

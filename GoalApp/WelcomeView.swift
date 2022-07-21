@@ -37,14 +37,15 @@ struct WelcomeView: View {
             .fullScreenCover(isPresented: $openMainView) {
                 MainView(openNewGoalView: true)
             }
-            .onTapGesture {
-                withAnimation(.linear(duration: 0.25)) {
-                    if count < welcomeTextArray.count - 1 {
-                        count += 1
-                    } else {
-                        UserDefaults.standard.set(true, forKey: "firstEntry")
-                        openMainView = true
-                    }
+            
+        }
+        .onTapGesture {
+            withAnimation(.linear(duration: 0.25)) {
+                if count < welcomeTextArray.count - 1 {
+                    count += 1
+                } else {
+                    UserDefaults.standard.set(true, forKey: "firstEntry")
+                    openMainView = true
                 }
             }
         }

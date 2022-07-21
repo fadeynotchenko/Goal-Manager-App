@@ -35,7 +35,7 @@ class DataController: ObservableObject {
         goal.name = name
         goal.price = allPrice
         goal.current = current
-        goal.tagIndex = tagIndex
+        goal.colorIndex = tagIndex
         goal.valueIndex = valueIndex
         
         save(context: context)

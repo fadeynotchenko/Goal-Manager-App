@@ -10,30 +10,40 @@ import SwiftUI
 struct GoalView: View {
     
     var goal: Goal
-    @Binding var percent: CGFloat
+    @Environment(\.colorScheme) var colorScheme
+    
     @State var progress: CGFloat = 0
     
-    var width = UIScreen.main.bounds.width
-    
     var body: some View {
-        ZStack {
-            Color("Color").edgesIgnoringSafeArea(.all)
+        GeometryReader { reader in
             
             ScrollView {
                 ZStack(alignment: .center) {
-                    CircleProgressView(progress: $progress, color: colorArray[Int(goal.tagIndex)])
-                        .frame(width: width / 2.2, height: width / 2)
                     
-                    Text("\(Int(percent))%")
-                        .font(.system(size: 40))
+                    HStack(spacing: idiom == .pad ? reader.size.width / 20 : 10) {
+                        sideButton(systemName: "minus", reader: reader) {
+                            
+                        }
+                        
+                        circleProgressView(reader: reader)
+                            .padding()
+                            .frame(width: idiom == .pad ? reader.size.width / 2.5 : reader.size.width / 1.7, height: idiom == .pad ? reader.size.width / 2.5 : reader.size.width / 1.7)
+                        
+                        sideButton(systemName: "plus", reader: reader) {
+                            
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    Text("\(Int(goal.current / (goal.price / 100)))%")
+                        .font(.system(size: idiom == .pad ? reader.size.width / 20 : 40))
                         .bold()
                 }
-                .padding()
+                .padding(5)
                 
                 Text("\(goal.current) / \(goal.price) \(valueArray[Int(goal.valueIndex)].symbol)")
-                    .font(.title2)
+                    .font(idiom == .pad ? .system(size: reader.size.width / 25) : .title2)
                     .bold()
-                    .padding()
                     .foregroundColor(.gray)
                 
                 Spacer()
@@ -41,29 +51,36 @@ struct GoalView: View {
             .navigationTitle(Text(goal.name!))
             .task {
                 withAnimation(.easeInOut(duration: 2.0)) {
-                    progress = percent / 100
+                    progress = CGFloat(goal.current / (goal.price / 100)) / 100
                 }
             }
+            
         }
     }
-}
-
-struct CircleProgressView: View {
     
-    @Binding var progress: CGFloat
-    let color: Color
-    
-    var body: some View {
+    @ViewBuilder
+    private func circleProgressView(reader: GeometryProxy) -> some View {
         ZStack {
             Circle()
-                .stroke(lineWidth: 30.0)
+                .stroke(lineWidth: idiom == .pad ? reader.size.width / 30 : 15)
                 .foregroundColor(.gray.opacity(0.2))
             
             Circle()
                 .trim(from: 0.0, to: min(progress, 1.0))
-                .stroke(style: StrokeStyle(lineWidth: 30.0, lineCap: .round, lineJoin: .round))
-                .fill(LinearGradient(colors: [color, .purple], startPoint: .leading, endPoint: .trailing))
+                .stroke(style: StrokeStyle(lineWidth: idiom == .pad ? reader.size.width / 30 : 15, lineCap: .round, lineJoin: .round))
+                .fill(LinearGradient(colors: [colorArray[Int(goal.colorIndex)], .purple], startPoint: .leading, endPoint: .trailing))
                 .rotationEffect(Angle(degrees: 270))
+        }
+    }
+    
+    @ViewBuilder
+    private func sideButton(systemName: String, reader: GeometryProxy, action: @escaping () -> ()) -> some View {
+        Button(action: { action() }) {
+            Image(systemName: systemName)
+                .frame(width: idiom == .pad ? reader.size.width / 10 : 50, height: idiom == .pad ? reader.size.width / 10 : 50)
+                .font(idiom == .pad ? .system(size: reader.size.width / 20) : .system(size: 15))
+                .background(Color(uiColor: .secondarySystemFill))
+                .clipShape(Circle())
         }
     }
 }

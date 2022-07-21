@@ -18,7 +18,6 @@
 		4365079F288440CF00A619A2 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4365079E288440CF00A619A2 /* MainView.swift */; };
 		436507A1288440D800A619A2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436507A0288440D800A619A2 /* WelcomeView.swift */; };
 		436507A32884438300A619A2 /* NewGoalView+ValueEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436507A22884438300A619A2 /* NewGoalView+ValueEnum.swift */; };
-		436507A528844F1C00A619A2 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436507A428844F1C00A619A2 /* NotificationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +33,6 @@
 		4365079E288440CF00A619A2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		436507A0288440D800A619A2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		436507A22884438300A619A2 /* NewGoalView+ValueEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewGoalView+ValueEnum.swift"; sourceTree = "<group>"; };
-		436507A428844F1C00A619A2 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +72,6 @@
 				436507B02884ACB400A619A2 /* View Model */,
 				4365079E288440CF00A619A2 /* MainView.swift */,
 				436507A22884438300A619A2 /* NewGoalView+ValueEnum.swift */,
-				436507A428844F1C00A619A2 /* NotificationView.swift */,
 				435DEAFC2886E77B0062D62D /* GoalRow.swift */,
 				435DEAFE2886E7A60062D62D /* GoalView.swift */,
 				436507942884404C00A619A2 /* Assets.xcassets */,
@@ -190,7 +187,6 @@
 				435A85A32885A00100A0072E /* DataController.swift in Sources */,
 				435DEAFF2886E7A60062D62D /* GoalView.swift in Sources */,
 				436507A1288440D800A619A2 /* WelcomeView.swift in Sources */,
-				436507A528844F1C00A619A2 /* NotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
