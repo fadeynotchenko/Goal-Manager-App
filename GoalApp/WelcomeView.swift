@@ -11,7 +11,7 @@ struct WelcomeView: View {
     
     @State private var count = 0
     @State private var openMainView = false
-    private let welcomeTextArray = ["Добро пожаловать в 'Моя Копилка'", "Со мной копить еще удобнее!", "Давай добавим твою первую цель"]
+    private let welcomeTextArray: [LocalizedStringKey] = ["welcome1", "welcome2", "welcome3"]
     
     var body: some View {
         ZStack {
@@ -27,11 +27,10 @@ struct WelcomeView: View {
                     .font(.title)
                     .multilineTextAlignment(.center)
                     .padding()
-                    .id(welcomeTextArray[count])
                 
                 Spacer()
                 
-                Text(count == 0 ? "Нажмите на текст, чтобы продожить" : " ")
+                Text(count == 0 ? "welcomeHint" : " ")
                     .foregroundColor(.gray)
             }
             .fullScreenCover(isPresented: $openMainView) {
@@ -40,7 +39,7 @@ struct WelcomeView: View {
             
         }
         .onTapGesture {
-            withAnimation(.linear(duration: 0.25)) {
+            withAnimation {
                 if count < welcomeTextArray.count - 1 {
                     count += 1
                 } else {
@@ -58,3 +57,4 @@ struct WelcomeView_Previews: PreviewProvider {
             .environmentObject(DataController())
     }
 }
+

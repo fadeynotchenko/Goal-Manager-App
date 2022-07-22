@@ -1,0 +1,28 @@
+/* 
+  Localizable.strings
+  GoalApp
+
+  Created by Fadey Notchenko on 22.07.2022.
+  
+*/
+"welcomeHint" = "Click on text to continue";
+"welcome1" = "Welcome to 'My Piggy Bank'";
+"welcome2" = "Saving money with me is even more convenient!";
+"welcome3" = "Let's create \n our first goal!";
+"appName" = "My Piggy Bank";
+"newGoal" = "New Goal";
+"listEmpty" = "List is empty";
+"name" = "Title";
+"hint1" = "For example: 'Car' or 'Apartment''";
+"cost" = "Cost";
+"cost1" = "Price in ₽";
+"cost2" = "Price in $";
+"cost3" = "Price in €";
+"save" = "Savings (optional)";
+"limit" = "Limit by time";
+"finish" = "End date";
+"amount" = "The amount that is available now";
+"tags" = "Tags";
+"add" = "Add goal";
+"close" = "Close";
+"done" = "Done";

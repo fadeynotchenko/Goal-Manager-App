@@ -39,11 +39,11 @@ struct MainView: View {
                     .listStyle(.insetGrouped)
                     
                     if goals.isEmpty {
-                        Text("Список пуст")
+                        Text("listEmpty")
                             .foregroundColor(.gray)
                     }
                 }
-                .navigationTitle(Text("Моя копилка"))
+                .navigationTitle(Text("appName"))
                 .sheet(isPresented: $openNewGoalView) {
                     NewGoalView(openNewGoalView: $openNewGoalView)
                 }

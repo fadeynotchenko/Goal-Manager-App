@@ -9,7 +9,7 @@ import SwiftUI
 
 var timeArray = ["День", "Неделю", "Месяц", "Год"]
 var valueArray: [Value] = [.rub, .usd, .eur]
-var colorArray: [Color] = [.red, .orange, .yellow, .green, .blue, .cyan, .purple, .pink, .indigo, .brown]
+var colorArray: [Color] = [.red, .pink, .orange, .yellow, .green, .blue, .cyan, .purple, .indigo]
 
 var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 

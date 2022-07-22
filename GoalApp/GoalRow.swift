@@ -38,10 +38,10 @@ struct GoalRow: View {
             ZStack(alignment: .trailing) {
                 HStack {
                     Capsule()
-                        .fill(.gray.opacity(0.2))
-                        .frame(width: reader.size.width / 2.5, height: 12)
+                        .fill(Color(uiColor: .secondarySystemFill))
+                        .frame(width: idiom == .pad ? reader.size.width / 3 : reader.size.width / 2, height: 12)
                     
-                    Text("\(Int(percent)) %")
+                    Text("\(Int(goal.current / (goal.price / 100))) %")
                         .foregroundColor(.gray)
                         .bold()
                 }

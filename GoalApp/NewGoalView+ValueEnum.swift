@@ -22,22 +22,22 @@ struct NewGoalView: View {
     @State var valueIndex = 0
     @State var tagIndex = 0
     
-    @State var selectedTime = 0
-    @State var isOnNotification = false
+    @State var isOn = false
+    @State var date = Date()
     
     var body: some View {
         NavigationView {
             Form {
                 Section{
-                    TextField("Например: 'Машина' или 'Квартира'", text: $goalName)
+                    TextField("hint1", text: $goalName)
                         .focused($focus)
                 } header: {
-                    Text("Название")
+                    Text("name")
                 }
                 
                 Section {
                     HStack {
-                        TextField("Цена в \(valueArray[valueIndex].symbol)", value: $goalPrice, format: .number)
+                        TextField(valueArray[valueIndex].key, value: $goalPrice, format: .number)
                             .focused($focus)
                             .keyboardType(.numberPad)
                         
@@ -48,38 +48,26 @@ struct NewGoalView: View {
                         }.pickerStyle(.menu)
                     }
                     
-                    TextField("Накопления (Необязательно)", value: $goalCurrent, format: .number)
+                    TextField("save", value: $goalCurrent, format: .number)
                         .focused($focus)
                         .keyboardType(.numberPad)
                     
                 } header: {
-                    Text("Стоимость")
+                    Text("cost")
                 } footer: {
-                    Text("Сумма которая имеется сейчас")
+                    Text("amount")
                 }
                 .listRowSeparator(.hidden)
                 
-                Section{
-                    NavigationLink(destination: {
-                        
-                        
-                    }) {
-                        VStack(alignment: .leading) {
-                            Text("Подробнее")
-                                .font(.headline)
-                            
-                            if isOnNotification {
-                                Text("Раз в \(timeArray[selectedTime])")
-                            } else {
-                                Text("Никогда")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                        }
+                Section {
+                    Toggle("limit", isOn: $isOn)
+                    
+                    if isOn {
+                        DatePicker("finish", selection: $date, in: Date()..., displayedComponents: .date)
+                            .environment(\.locale, Locale.init(identifier: String(Locale.preferredLanguages[0].prefix(2))))
                     }
-                } header: {
-                    Text("Уведомление")
                 }
+                .listRowSeparator(.hidden)
                 
                 Section {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -103,18 +91,18 @@ struct NewGoalView: View {
                         }
                     }
                 } header: {
-                    Text("Теги")
+                    Text("tags")
                 }
                 
             }
-            .navigationTitle(Text("Новая цель"))
+            .navigationTitle(Text("newGoal"))
             .toolbar {
                 ToolbarItem {
-                    Button("Добавить") {
+                    Button("add") {
                         openNewGoalView.toggle()
                         //action add
                         DispatchQueue.main.async {
-                            vmDB.addGoal(name: goalName, allPrice: goalPrice!, current: goalCurrent ?? 0, valueIndex: Int16(valueIndex), tagIndex: Int16(tagIndex), context: managedObjectContext)
+                            vmDB.addGoal(name: goalName, allPrice: goalPrice!, current: goalCurrent ?? 0, valueIndex: Int16(valueIndex), tagIndex: Int16(tagIndex), dateFinish: isOn ? date : nil, context: managedObjectContext)
                         }
                         
                     }
@@ -123,7 +111,7 @@ struct NewGoalView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Закрыть") {
+                    Button("close") {
                         openNewGoalView.toggle()
                     }
                 }
@@ -131,7 +119,7 @@ struct NewGoalView: View {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
                     
-                    Button("Готово") {
+                    Button("done") {
                         focus.toggle()
                     }
                 }
@@ -156,6 +144,17 @@ enum Value: String {
             return "$"
         case .eur:
             return "€"
+        }
+    }
+    
+    var key: LocalizedStringKey {
+        switch self {
+        case .rub:
+            return "cost1"
+        case .usd:
+            return "cost2"
+        case .eur:
+            return "cost3"
         }
     }
 }

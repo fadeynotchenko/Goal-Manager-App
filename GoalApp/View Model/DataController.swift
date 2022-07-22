@@ -28,7 +28,7 @@ class DataController: ObservableObject {
         }
     }
     
-    func addGoal(name: String, allPrice: Int64, current: Int64, valueIndex: Int16, tagIndex: Int16, context: NSManagedObjectContext) {
+    func addGoal(name: String, allPrice: Int64, current: Int64, valueIndex: Int16, tagIndex: Int16, dateFinish: Date?, context: NSManagedObjectContext) {
         let goal = Goal(context: context)
         goal.id = UUID()
         goal.date = Date()
@@ -37,6 +37,10 @@ class DataController: ObservableObject {
         goal.current = current
         goal.colorIndex = tagIndex
         goal.valueIndex = valueIndex
+        
+        if let dateFinish = dateFinish {
+            goal.dateFinish = dateFinish
+        }
         
         save(context: context)
     }
